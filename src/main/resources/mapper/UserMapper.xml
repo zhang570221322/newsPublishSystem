@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="model.User" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="phone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="frozen" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="admin" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="gmt_modified" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="gmt_create" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+
+ <sql id="Base_Column_List">
+    id,username,password,phone,frozen,admin,gmt_modified,gmt_create
+ </sql>
+  <!--插入方法-->
+  <insert id="insert" parameterType="model.User" >
+    insert into user ( username, password,
+    phone,gmt_modified, gmt_create)
+    values ( #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+    #{phone,jdbcType=VARCHAR},now(), now())
+  </insert>
+
+  <!--修改单一对象方法-->
+    <update id="update" parameterType="model.User">
+        update user
+        <set >
+            <if test="username != null" >
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="frozen != null" >
+                frozen = #{frozen,jdbcType=TINYINT},
+            </if>
+            <if test="admin != null" >
+                admin = #{admin,jdbcType=TINYINT},
+            </if>
+                gmt_modified = now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--统一修改多对象-->
+    <update id="update2" parameterType="model.Info" >
+        update user
+        <set >
+            <if test="t.username != null" >
+                username = #{t.username,jdbcType=VARCHAR},
+            </if>
+            <if test="t.password != null" >
+                password = #{t.password,jdbcType=VARCHAR},
+            </if>
+            <if test="t.phone != null" >
+                phone = #{t.phone,jdbcType=VARCHAR},
+            </if>
+            <if test="t.frozen != null" >
+                frozen = #{t.frozen,jdbcType=TINYINT},
+            </if>
+            <if test="t.admin != null" >
+                admin = #{t.admin,jdbcType=TINYINT},
+            </if>
+            gmt_modified = now(),
+        </set>
+        where ${whereCondition}
+    </update>
+
+    <!--统一删除多对象-->
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from user
+        where id in #{ids}
+    </delete>
+    <!--得到单一对象-->
+  <select id="get" resultMap="BaseResultMap" parameterType="model.User"  >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where  password=#{password} AND username=#{username}
+  </select>
+    <!--得到多对象-->
+    <select id="list" resultMap="BaseResultMap" parameterType="model.User"  >
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where ${whereCondition}
+    </select>
+</mapper>
