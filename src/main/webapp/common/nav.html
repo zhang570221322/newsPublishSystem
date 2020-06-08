@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Bootstrap 模板</title>
+	  <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+	   <script src="../script/jquery-2.1.4.min.js"></script>
+	  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	  <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	   <script type="text/JavaScript">
+
+
+		     function js_methodlogin(){
+		         parent.document.location.href = "../register.html";
+			 }
+             function js_methodregister(){
+                 parent.document.location.href = "../login.html";
+             }
+             function js_methodCategory(id){
+                 parent.document.location.href = "../category.html?searchValue="+id;
+             }
+           $(document).ready(function(){
+               $("#search").click(function(){
+                   var searchValue=$("#searchValue").val();
+                   var searchUrl =encodeURI("../search.html?searchValue="+searchValue);
+                   parent.document.location.href =searchUrl;
+
+               });
+//               alert("test");
+                   $.ajax({
+                       type:'get',
+                       url:"../GET/session/user.do",
+                       cache:false,
+                       dataType:'json',
+                       success:function(data){
+                           if(data.user!=null){
+                               $('#ul1').append(
+                                   "<li><a href='#'><span class='glyphicon glyphicon-user'></span> "+data.user.username +"</a></li>"
+                               );
+                           }else{
+                               $('#ul1').append(
+                                   "<li><a href='javascript:js_methodlogin();'><span class='glyphicon glyphicon-user'></span> 注册</a></li>"+
+                                   "<li><a href='javascript:js_methodregister();'><span class='glyphicon glyphicon-log-in'></span> 登录</a></li>"
+                               );
+                           }
+                       }
+                   });
+
+           });
+
+
+	   </script>
+	   <script type="text/JavaScript">
+           $(document).ready(function(){
+//               alert("test");
+               $.ajax({
+                   type:'get',
+                   url:"../GET/application/indexContent.do",
+                   cache:false,
+                   dataType:'json',
+                   success:function(data){
+//                           alert("success");
+//                           alert(data.user);
+//					   alert(data.categories);
+                       if(data!=null){
+                           var count=0;
+                           $('#Category').append("<div class='row'>");
+                           $.each( data.categories , function(index, content)
+                           {
+
+                               $('#Category').append(
+                               "<div class='col-md-1'><a href='javascript:js_methodCategory("+content.id+");'>  <span class='label label-info'>"+content.name +"</span></a></div>"
+							   );
+                                   count++;
+                                   if(count>10){
+                                       $('#Category').append(
+                                          "<br><h1></h1>"
+                                       );
+                                       count=0;
+								   }
+
+                               $('#Category').append("</div></div>");
+                           });
+
+                       }else{
+                           alert("error");
+                       }
+                   }
+               });
+
+           });
+
+
+	   </script>
+   </head>
+   <body>
+		<nav class="navbar navbar-default" role="navigation"> 
+			<div class="container-fluid"> 
+				<div class="navbar-header"> 
+					<a class="navbar-brand" href="#">新闻发布系统</a> 
+				</div> 
+			
+				<ul id="ul1" class="nav navbar-nav navbar-right">
+					<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+						<input id="searchValue" type="text" class="form-control" placeholder="Search">
+					</div>
+					<button id="search"  type="submit" class="btn btn-default">搜索</button>
+				</form>
+
+				</ul> 
+			</div> 
+		</nav>
+			<div   class="jumbotron">
+					 <div id="Category" class="container">
+					   <div class="row">
+						<h1><b>新闻发布系统</b> <small><b>News Publish System</b></small></h1>
+						<p class="text-muted">本系统有一个功能强大的Web编辑器，相当于Web的Word，能够为你编辑出许多特效。系统的功能包括：新闻的浏览、关键字的查询、会员的登录、新闻的管理、系统管理。本系统功能齐全、界面优美</p>
+					   </div>
+
+
+			</div>
+	  
+		 
+   </body>
+</html>
+

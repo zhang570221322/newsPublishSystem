@@ -30,6 +30,10 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <!--初始化首页数据-->
+  <listener>
+    <listener-class>listener.InitDataListener</listener-class>
+  </listener>
     <servlet>
       <servlet-name>springmvc</servlet-name>
       <servlet-class>
@@ -45,6 +49,6 @@
     </servlet>
     <servlet-mapping>
       <servlet-name>springmvc</servlet-name>
-      <url-pattern>/</url-pattern>
+      <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -1,6 +1,9 @@
 package dao;
 
 import model.Info;
+import model.Report;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -8,6 +11,7 @@ import java.util.List;
  * Created by zwl on 2017/9/6.
  * May god bless me
  */
+@Repository
 public interface BaseMapper<T> {
     /**
      * 添加单一对象接口
@@ -46,7 +50,7 @@ public interface BaseMapper<T> {
      * @param ids
      * @return
      */
-     int delete(String ids);
+     int delete(@Param("ids")String ids);
 
     /**
      * 得到多对象接口
@@ -57,4 +61,12 @@ public interface BaseMapper<T> {
      * @return
      */
      List<T> list(Info<T> info);
+
+    /**
+     * 得到有多少行
+     * @return
+     */
+    int getCount(@Param("whereCondition")String whereCondition);
+
+
 }

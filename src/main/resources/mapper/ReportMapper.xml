@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.ReportMapper" >
+  <resultMap id="BaseResultMap" type="model.Report" >
+
+      <id column="id"  property="id" />
+      <result column="title"  property="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="content" property="content"  jdbcType="VARCHAR" javaType="java.lang.String" />
+        <result column="upload" property="upload" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="gmt_modified" property="gmt_modified"  jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <result column="gmt_create" property="gmt_create" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        <result column="clickNumber" property="clickNumber" jdbcType="INTEGER" javaType="java.lang.Integer" />
+
+      <association property="reportUser" javaType="model.User">
+        <id property="id" column="user_id"/>
+          <id property="username" column="username"/>
+      </association>
+      <association property="reportCategory" javaType="model.Category">
+          <id property="id" column="category_id"/>
+          <id property="name" column="name"/>
+      </association>
+  </resultMap>
+
+ <sql id="Base_Column_List">
+    id,title,content,upload,user_id,category_id,clickNumber,gmt_modified,gmt_create
+ </sql>
+
+  <!--插入方法-->
+  <insert id="insert" parameterType="model.Report" >
+    insert into Report( title,content,user_id,category_id,clickNumber,upload,gmt_modified, gmt_create)
+    values ( #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},#{reportUser.id,jdbcType=INTEGER},#{reportCategory.id,jdbcType=INTEGER},#{clickNumber,jdbcType=INTEGER}, #{upload,jdbcType=VARCHAR},
+    now(), now())
+  </insert>
+
+  <!--修改单一对象方法-->
+    <update id="update" parameterType="model.Report">
+        update report
+        <set >
+            <if test="title != null" >
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="upload != null" >
+                content = #{upload,jdbcType=VARCHAR},
+            </if>
+            <if test="reportUser.id != null" >
+                user_id = #{reportUser.id,jdbcType=INTEGER},
+            </if>
+            <if test="reportCategory.id != null" >
+                Category_id = #{reportCategory.id,jdbcType=INTEGER},
+            </if>
+            <if test="clickNumber != null" >
+                clickNumber = #{clickNumber,jdbcType=INTEGER},
+            </if>
+                gmt_modified = now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--统一修改多对象-->
+    <update id="update2" parameterType="model.Info" >
+        update report
+        <set >
+            <if test="t.title != null" >
+                title = #{t.title,jdbcType=VARCHAR},
+            </if>
+            <if test="t.upload != null" >
+                upload = #{t.upload,jdbcType=VARCHAR},
+            </if>
+            <if test="t.content != null" >
+                content = #{t.content,jdbcType=VARCHAR},
+            </if>
+            <if test="t.reportUser.id != null" >
+                user_id = #{t.reportUser.id,jdbcType=INTEGER},
+            </if>
+            <if test="t.reportCategory.id != null" >
+                Category_id = #{t.reportCategory.id,jdbcType=INTEGER},
+            </if>
+            <if test="t.clickNumber != null" >
+                clickNumber = #{t.clickNumber,jdbcType=INTEGER},
+            </if>
+            gmt_modified = now(),
+        </set>
+        where ${whereCondition}
+    </update>
+
+    <!--统一删除多对象-->
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from report
+        where id in ${ids}
+    </delete>
+    <!--得到单一对象-->
+  <select id="get" resultMap="BaseResultMap" parameterType="model.Report"  >
+    select 
+    <include refid="Base_Column_List" />
+    from report
+    where  id = #{id}
+  </select>
+    <!--得到多对象-->
+    <select id="list" resultMap="BaseResultMap" parameterType="model.Info"  >
+        select
+         re.id,re.title,re.content,re.upload,re.user_id,re.category_id,re.clickNumber,re.gmt_modified,re.gmt_create,ca.name,us.username
+        from report re  LEFT  JOIN category ca on re.category_id = ca.id
+         LEFT JOIN  user  us ON  re.user_id = us.id
+        where ${whereCondition}
+    </select>
+
+    <!--得到行数-->
+    <select id="getCount" resultType="java.lang.Integer"    >
+        select COUNT(*)
+        from report
+        where ${whereCondition}
+    </select>
+
+
+
+
+</mapper>

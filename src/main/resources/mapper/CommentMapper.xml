@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.CommentMapper" >
+  <resultMap id="BaseResultMap" type="model.Comment" >
+      <id column="id"  property="id" />
+      <result column="title"  property="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="content" property="content"  jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="gmt_modified" property="gmt_modified"  jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <result column="gmt_create" property="gmt_create" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <result column="clickNumber" property="clickNumber" jdbcType="INTEGER" javaType="java.lang.Integer" />
+
+      <association property="commentUser" javaType="model.User">
+        <id property="id" column="user_id"/>
+      </association>
+      <association property="commentReport" javaType="model.Report">
+          <id property="id" column="report_id"/>
+      </association>
+  </resultMap>
+
+ <sql id="Base_Column_List">
+    id,title,content,user_id,report_id,clickNumber,gmt_modified,gmt_create
+ </sql>
+
+  <!--插入方法-->
+  <insert id="insert" parameterType="model.Comment" >
+    insert into comment( title,content,user_id,report_id,clickNumber,gmt_modified, gmt_create)
+    values ( #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},#{commentUser.id,jdbcType=INTEGER},#{commentReport.id,jdbcType=INTEGER},#{clickNumber,jdbcType=INTEGER},
+    now(), now())
+  </insert>
+
+  <!--修改单一对象方法-->
+    <update id="update" parameterType="model.Comment">
+        update comment
+        <set >
+            <if test="title != null" >
+                name = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="commentUser.id != null" >
+                user_id = #{commentUser.id,jdbcType=INTEGER},
+            </if>
+            <if test="commentReport.id != null" >
+                report_id = #{commentReport.id,jdbcType=INTEGER},
+            </if>
+            <if test="clickNumber != null" >
+                clickNumber = #{clickNumber,jdbcType=INTEGER},
+            </if>
+                gmt_modified = now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--统一修改多对象-->
+    <update id="update2" parameterType="model.Info" >
+        update comment
+        <set >
+            <if test="t.title != null" >
+                name = #{t.title,jdbcType=VARCHAR},
+            </if>
+            <if test="t.content != null" >
+                content = #{t.content,jdbcType=VARCHAR},
+            </if>
+            <if test="t.commentUser.id != null" >
+                user_id = #{t.commentUser.id,jdbcType=INTEGER},
+            </if>
+            <if test="t.commentReport.id != null" >
+               report_id = #{t.commentReport.id,jdbcType=INTEGER},
+            </if>
+            <if test="t.clickNumber != null" >
+                clickNumber = #{t.clickNumber,jdbcType=INTEGER},
+            </if>
+            gmt_modified = now(),
+        </set>
+        where ${whereCondition}
+    </update>
+
+    <!--统一删除多对象-->
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from comment
+        where id in ${ids}
+    </delete>
+    <!--得到单一对象-->
+  <select id="get" resultMap="BaseResultMap" parameterType="model.Comment"  >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where  id = #{id}
+  </select>
+    <!--得到多对象-->
+    <select id="list" resultMap="BaseResultMap" parameterType="model.Info"  >
+        select
+        <include refid="Base_Column_List" />
+        from comment
+        where ${whereCondition}
+    </select>
+
+    <!--得到行数-->
+    <select id="getCount" resultType="java.lang.Integer"    >
+        select COUNT(*)
+        from comment
+        where ${whereCondition}
+    </select>
+</mapper>

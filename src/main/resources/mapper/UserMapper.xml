@@ -75,7 +75,7 @@
     <!--统一删除多对象-->
     <delete id="delete" parameterType="java.lang.String" >
         delete from user
-        where id in #{ids}
+        where id in ${ids}
     </delete>
     <!--得到单一对象-->
   <select id="get" resultMap="BaseResultMap" parameterType="model.User"  >
@@ -85,9 +85,16 @@
     where  password=#{password} AND username=#{username}
   </select>
     <!--得到多对象-->
-    <select id="list" resultMap="BaseResultMap" parameterType="model.User"  >
+    <select id="list" resultMap="BaseResultMap" parameterType="model.Info"  >
         select
         <include refid="Base_Column_List" />
+        from user
+        where ${whereCondition}
+    </select>
+
+    <!--得到行数-->
+    <select id="getCount" resultType="java.lang.Integer"    >
+        select COUNT(*)
         from user
         where ${whereCondition}
     </select>

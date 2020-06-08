@@ -1,6 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="newsPublishSystem:war exploded">
     <output-path>$PROJECT_DIR$/target/newsPublishSystem</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>newsPublishSystem</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -34,9 +41,6 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.7.3" />
-          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:unknown" />
-          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-lgpl:1.9.12" />
-          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-lgpl:1.9.12" />
           <element id="library" level="project" name="Maven: org.json:json:20160212" />
           <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:2.4" />
           <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />

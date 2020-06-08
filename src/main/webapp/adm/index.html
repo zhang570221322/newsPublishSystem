@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>后台管理</title>
+	  <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+	   <link rel="stylesheet" href="EasyUI/themes/icon.css" type="text/css"></link>
+	  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	  <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<!-- 下面是easyui的环境 -->
+
+		<link rel="stylesheet" href="EasyUI/themes/default/easyui.css" type="text/css"></link>  
+		<script type="text/javascript" src="EasyUI/jquery.min.js"></script>
+		<script type="text/javascript" src="EasyUI/jquery.easyui.min.js"></script>  
+		<script type="text/javascript" src="EasyUI/locale/easyui-lang-zh_CN.js"></script>  
+		<style type="text/css">  
+        #menu {  
+            width:200px;  
+            /*border:1px solid red;*/  
+        }  
+        #menu ul {  
+            list-style: none;  
+            padding: 0px;  
+            margin: 0px;  
+        }  
+        #menu ul li {  
+            border-bottom: 1px solid #fff;  
+              
+        }  
+        #menu ul li a {  
+            /*先将a标签转换为块级元素，才能设置宽和内间距*/  
+            display: block;  
+            background-color: #00a6ac;  
+            color: #fff;  
+            padding: 5px;  
+            text-decoration: none;  
+        }  
+        #menu ul li a:hover {  
+            background-color: #008792;  
+        }  
+          
+    </style>  
+    <script type="text/javascript">  
+    $(function(){  
+        $("a[title]").click(function(){  
+            var text = $(this).text();  
+            var href = $(this).attr("title");  
+            //判断当前右边是否已有相应的tab  
+            if($("#tt").tabs("exists", text)) {  
+                $("#tt").tabs("select", text);  
+            } else {  
+                //如果没有则创建一个新的tab，否则切换到当前tag  
+                $("#tt").tabs("add",{  
+                    title:text,  
+                    closable:true,  
+                    content:'<iframe title='+text+'    src='+href+'     frameborder="0" width="100%" height="100%" />'  
+                    //href:默认通过url地址加载远程的页面，但是仅仅是body部分  
+                    //href:'send_category_query.action'  
+                });  
+            }  
+        return false;
+        });  
+    });  
+</script>  
+   </head>
+   <body class="easyui-layout" >
+   <div id="add"></div>
+   <div id="alter">ssss</div>
+   <div data-options="region:'north',title:'新闻发布系统后台管理 ',split:true"  >  
+			<nav class="navbar navbar-default" role="navigation"> 
+			<div class="container-fluid"> 
+				<div class="navbar-header"> 
+					<a class="navbar-brand" href="#">新闻发布系统</a> 
+				</div> 
+			
+				<ul class="nav navbar-nav navbar-right"> 
+			 
+					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
+				</ul> 
+			</div> 
+			</nav>
+				<div class="jumbotron">
+						 <div class="container">
+						   <div class="row">
+							<h1><b>新闻发布系统后台管理</b> <br><small><b> Background management of News Publish System  </small></b></h1>
+							<p class="text-muted">本系统有一个功能强大的Web编辑器，相当于Web的Word，能够为你编辑出许多特效。系统的功能包括：新闻的浏览、关键字的查询、会员的登录、新闻的管理、系统管理。本系统功能齐全、界面优美</p>
+						   </div>
+					   
+					</div>
+					</div>
+	  </div>
+  
+        <div data-options="region:'west',title:'系统操作',split:true" style="width:200px;">  
+            <!-- 此处显示的是系统菜单 -->  
+            <div id="menu" class="easyui-accordion" style="width:300px;height:500px;">     
+                <div title="用户管理" data-options="iconCls:'icon-save'" style="overflow:auto;">     
+                  <ul>
+                  		<li><a href="#"  title="user.html">管理用户</a></li>
+                  		 
+                  </ul>
+                </div>
+				
+				<div title="评论管理" data-options="iconCls:'icon-save'" style="overflow:auto;">     
+                  <ul>
+                  		<li><a href="#"  title="comment.html">管理评论</a></li>
+                  		 
+                  </ul>
+                </div>   
+				
+                <div title="新闻管理" data-options="iconCls:'icon-reload',selected:true" >
+                    <ul>
+                  		<li><a href="#" title="category.html">管理新闻类别</a></li>
+                  		<li><a href="#" title="report.html">管理新闻</a></li>
+                    </ul>
+                </div>     
+                    
+            </div>     
+        </div>     
+		
+		    <div data-options="region:'east',title:'系统公告',split:true" style="width:200px;">  
+			欢迎你 管理员XXXX
+			</div>
+		
+        <div data-options="region:'center',title:'系统管理'" style="padding:5px;background:#eee;">
+        	<div id="tt" class="easyui-tabs" data-options="fit:true">
+        		<div title="系统缺省管理页面" style="padding:10px;">
+        		此处以后显示系统信息,(当前操作域名)
+        		</div>
+        	</div>
+        </div>  
+		<div data-options="region:'south',title:'新闻发布系统后台管理 ',split:true"  >  
+			 <footer class="container-fluid foot-wrap">
+ 
+				<div class="container" role="navigation">
+					<div class="row">
+						<div class="row-content col-lg-2 col-sm-4 col-xs-6">
+							<h3>订阅</h3>
+							<ul>
+								<li><a href="#">Newsletter</a></li>
+								<li><a href="#">RSS feed</a></li>
+								<li><a href="#">RSS to Email</a></li>
+								<li><a href="#">Product Hunt</a></li>
+								<li><a href="#">Twitter</a></li>
+								<li><a href="#">Facebook</a></li>
+								<li><a href="#">Pinterest</a></li>
+								<li><a href="#">Google+</a></li>
+							</ul>
+						</div>
+						<div class="row-content col-lg-2 col-sm-4 col-xs-6">
+							<h3>浏览</h3>
+							<ul>
+								<li><a href="#">Home</a></li>
+								<li><a href="#">Gallery</a></li>
+								<li><a href="#">Templates</a></li>
+								<li><a href="#">Resources</a></li>
+								<li><a href="#">OPL Themes</a></li>
+							</ul>
+						</div>
+						<div class="row-content col-lg-2 col-sm-4 col-xs-6">
+							<h3>信息</h3>
+							<ul>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Why One Page?</a></li>
+								<li><a href="#">OPL Blog</a></li>
+								<li><a href="#">Product Hunt</a></li>
+								<li><a href="#">Advertise</a></li>
+								<li><a href="#">Submit</a></li>
+								<li><a href="#">Award Ribbons</a></li>
+								<li><a href="#">Roadmap</a></li>
+							</ul>
+						</div>
+
+						<div class="row-content col-lg-2 col-sm-4 col-xs-6">
+							<h3>资源</h3>
+							<ul>
+								<li><a href="#">Browse All</a></li>
+								<li><a href="#">Design</a></li>
+								<li><a href="#">Development</a></li>
+								<li><a href="#">Hosting</a></li>
+								<li><a href="#">Round Ups</a></li>
+								<li><a href="#">Tutorials</a></li>
+							</ul>
+
+						</div>
+						<div class="row-content col-lg-2 col-sm-4 col-xs-6">
+							<h3>趋向</h3>
+							<ul>
+								<li><a href="#">Big Typography</a></li>
+								<li><a href="#">Free Templates</a></li>
+								<li><a href="#">Most Loved</a></li>
+								<li><a href="#">Centrally Divided</a></li>
+								<li><a href="#">Skrollr.js</a></li>
+								<li><a href="#">Parallax Scrolling</a></li>
+								<li><a href="#">Off-Canvas Menu</a></li>
+								<li><a href="#">Molecules</a></li>
+							</ul>
+						</div>
+						<div class="row-content col-lg-2 col-sm-4 col-xs-6">
+							<h3>OPL THEMES</h3>
+							<ul>
+								<li><a href="#">Browse All</a></li>
+								<li><a href="#">East Java</a></li>
+								<li><a href="#">Clutterless</a></li>
+								<li><a href="#">Mapped</a></li>
+							</ul>
+						</div>
+
+					</div><!--/.row -->
+				</div><!--/.container-->
+
+		   
+				
+				<p align="center" style="margin-top: 20px;color:#878B91;">
+					Copyright &copy;2017 zwl
+				</p>
+
+		</footer>
+	  </div>
+   </body>
+   
+</html>
+

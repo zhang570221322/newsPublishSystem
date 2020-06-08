@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>主页</title>
+	  <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+	   <script src="script/jquery-2.1.4.min.js"></script>
+	  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	  <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+       <script type="text/JavaScript">
+           $(document).ready(function(){
+//               alert("test");
+               $.ajax({
+                   type:'get',
+                   url:"GET/application/indexContent.do",
+                   cache:false,
+                   dataType:'json',
+                   success:function(data){
+//                           alert("success");
+//                           alert(data.user);
+//                       alert(data.categories);
+                       if(data!=null){
+
+                           $.each( data.recentReports , function(index, content)
+                           {
+                               $('#updateReport').append(
+                                   "<a href='detail.html?id="+content.id+"'>"+content.title+"</a> 	<span class='label label-success'> "+content.clickNumber+"</span> <br><br>"
+                               );
+                           });
+                           $.each( data.hottestReports , function(index, content)
+                           {
+                               $('#hottestReports').append(
+                                   "<a href='detail.html?id="+content.id+"'>"+content.title+"</a> 	<span class='label label-success'> "+content.clickNumber+"</span> <br><br>"
+                               );
+                           });
+                           $.each( data.categories , function(index, content)
+                           {
+                               $('#rowcontent').append(
+                                   "<div class='col-md-4'><div class='panel panel-primary'><div class='panel-heading'><h3 class='panel-title'>"+ content.name+"</h3></div><div id='category"+content.id+"'    class='panel-body'></div></div></div>"
+                               );
+                           });
+
+                           $.each( data.categories , function(index, content)
+                           {
+                               $.each( content.reports , function(index2, content2)
+                               {
+                                   $('#category'+content.id).append(
+                                       "<a href='detail.html?id="+content2.id+"'>"+content2.title+"</a><span class='label label-success'>"+content2.clickNumber+"</span><br><br>"
+                                   );
+                               });
+                           });
+
+                       }else{
+                           alert("error");
+                       }
+                   }
+               });
+
+           });
+
+
+       </script>
+
+   </head>
+   <body>
+    <iframe src="common/nav.html" width="100%" height="400px" scrolling="no"></iframe>
+
+	
+	<hr>
+ <div class="container">
+		<div class="row">
+		 	<div class="col-md-10">
+                <div  id="rowcontent" class="row">
+
+				</div>
+			</div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">最新文章</h3>
+                        </div>
+                        <div id="updateReport" class="panel-body">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">最热文章</h3>
+                        </div>
+                        <div id="hottestReports" class="panel-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+	    </div>
+	 </div>
+	</div>
+	
+		<hr>
+	
+	 <iframe src="common/footer.html" width="100%" height="300px" scrolling="no"></iframe>
+   </body>
+</html>
+

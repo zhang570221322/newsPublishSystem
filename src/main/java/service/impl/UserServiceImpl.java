@@ -5,6 +5,7 @@ import dao.UserMapper;
 import model.Info;
 import model.User;
 import model.UserBefore;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.UserService;
@@ -16,26 +17,19 @@ import java.util.List;
  * May god bless me
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
+  private  static Logger logger = Logger.getLogger(UserServiceImpl.class);
     @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+          setBaseMapper(userMapper);
+    }
+
     @Override
     public User access(User u) {
          return userMapper.get(u);
-    }
-
-    @Override
-    public int removeUser(String ids) {
-        return userMapper.delete(ids);
-    }
-
-
-    @Override
-    public List<User> getAllUser(int pageNum,int pageSize) {
-        Info<User> info=new Info<>();
-        info.setWhereCondition("1=1");
-        PageHelper.startPage(pageNum, pageSize);
-        return  userMapper.list(info);
     }
 
     @Override
@@ -45,16 +39,6 @@ public class UserServiceImpl implements UserService {
         PageHelper.startPage(pageNum, pageSize);
         return  userMapper.list(info);
 
-    }
-
-    @Override
-    public int addUser(User u) {
-        return userMapper.insert(u);
-    }
-
-    @Override
-    public int alterUser(User user) {
-        return  userMapper.update(user);
     }
 
     @Override

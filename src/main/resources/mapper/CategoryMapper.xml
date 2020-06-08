@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.CategoryMapper" >
+  <resultMap id="BaseResultMap" type="model.Category" >
+
+      <id column="id"  property="id" />
+      <result column="name"  property="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="content" property="content"  jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="gmt_modified" property="gmt_modified"  jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <result column="gmt_create" property="gmt_create" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <result column="clickNumber" property="clickNumber" jdbcType="INTEGER" javaType="java.lang.Integer" />
+
+      <association property="categoryUser" javaType="model.User">
+        <id property="id" column="user_id"/>
+      </association>
+  </resultMap>
+
+ <sql id="Base_Column_List">
+    id,name,content,user_id,clickNumber,gmt_modified,gmt_create
+ </sql>
+
+  <!--插入方法-->
+  <insert id="insert" parameterType="model.Category" >
+    insert into category ( name,content,user_id,clickNumber,gmt_modified, gmt_create)
+    values ( #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},#{categoryUser.id,jdbcType=INTEGER},#{clickNumber,jdbcType=INTEGER},
+    now(), now())
+  </insert>
+
+  <!--修改单一对象方法-->
+    <update id="update" parameterType="model.Category">
+        update category
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryUser.id != null" >
+                user_id = #{categoryUser.id,jdbcType=INTEGER},
+            </if>
+            <if test="clickNumber != null" >
+                clickNumber = #{clickNumber,jdbcType=INTEGER},
+            </if>
+                gmt_modified = now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--统一修改多对象-->
+    <update id="update2" parameterType="model.Info" >
+        update category
+        <set >
+            <if test="t.name != null" >
+                name = #{t.name,jdbcType=VARCHAR},
+            </if>
+            <if test="t.content != null" >
+                content = #{t.content,jdbcType=VARCHAR},
+            </if>
+            <if test="t.categoryUser.id != null" >
+                user_id = #{t.categoryUser.id,jdbcType=INTEGER},
+            </if>
+            <if test="t.clickNumber != null" >
+                clickNumber = #{t.clickNumber,jdbcType=INTEGER},
+            </if>
+            gmt_modified = now(),
+        </set>
+        where ${whereCondition}
+    </update>
+
+    <!--统一删除多对象-->
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from category
+        where id in ${ids}
+    </delete>
+    <!--得到单一对象-->
+  <select id="get" resultMap="BaseResultMap" parameterType="model.Category"  >
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where  id = #{id}
+  </select>
+    <!--得到多对象-->
+    <select id="list" resultMap="BaseResultMap" parameterType="model.Info"  >
+        select
+        <include refid="Base_Column_List" />
+        from  Category
+        where ${whereCondition}
+    </select>
+
+    <!--得到行数-->
+    <select id="getCount" resultType="java.lang.Integer"    >
+        select COUNT(*)
+        from Category
+        where ${whereCondition}
+    </select>
+</mapper>

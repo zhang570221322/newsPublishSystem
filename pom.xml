@@ -212,15 +212,7 @@
           <artifactId>jackson-annotations</artifactId>
           <version>2.7.3</version>
       </dependency>
-      <dependency>
-          <groupId>org.codehaus.jackson</groupId>
-          <artifactId>jackson-core-asl</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>org.codehaus.jackson</groupId>
-          <artifactId>jackson-mapper-lgpl</artifactId>
-          <version>1.9.12</version>
-      </dependency>
+
       <!-- https://mvnrepository.com/artifact/org.json/json -->
       <dependency>
         <groupId>org.json</groupId>

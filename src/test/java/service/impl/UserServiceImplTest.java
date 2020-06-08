@@ -8,6 +8,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.UserService;
 
+import java.util.List;
+
 
 /**
  * Created by zwl on 2017/9/6.
@@ -26,6 +28,23 @@ public class UserServiceImplTest {
         u.setPhone("15638520435");
         User access = userService.access(u);
         System.out.println(access.getId());
+    }
+    @Test
+    public void  getCountTest(){
+        int allUserNumber = userService.getAllTNumber();
+        System.out.println(allUserNumber);
+    }
+    @Test
+    public void  deleteTest(){
+        int allUserNumber =  userService.removeT("3");
+        System.out.println(allUserNumber);
+    }
+    @Test
+    public void  getAllUserTest(){
+        List<User> allUser = userService.getAllT(0, 0, "1 = 1");
+        allUser.stream().forEach(user -> {
+            System.out.println(user.getId());
+        });
     }
 
 }

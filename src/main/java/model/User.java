@@ -1,5 +1,8 @@
 package model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import util.CustomDateSerializer;
+
 import java.util.Date;
 
 public class User {
@@ -81,7 +84,7 @@ public class User {
     public void setAdmin(Byte admin) {
         this.admin = admin;
     }
-
+    @JsonSerialize(using= CustomDateSerializer.class)
     public Date getGmtModified() {
         return gmtModified;
     }
@@ -89,7 +92,7 @@ public class User {
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
     }
-
+    @JsonSerialize(using=CustomDateSerializer.class)
     public Date getGmtCreate() {
         return gmtCreate;
     }
